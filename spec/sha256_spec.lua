@@ -20,7 +20,6 @@ describe("sha256.digest", function()
             local msg = util.hexcat { shortMsg[i].msg }
             local md = util.hexcat { shortMsg[i].md }
             expect(sha256.digest(msg)):eq(md)
-            sleep()
         end
     end)
 
@@ -29,7 +28,6 @@ describe("sha256.digest", function()
             local msg = util.hexcat { longMsg[i].msg }
             local md = util.hexcat { longMsg[i].md }
             expect(sha256.digest(msg)):eq(md)
-            sleep()
         end
     end)
 
@@ -44,7 +42,6 @@ describe("sha256.digest", function()
                 md0, md1, md2 = md1, md2, sha256.digest(md0 .. md1 .. md2)
             end
             seed = md2
-            sleep()
         end
 
         local out = util.hexcat {

@@ -1,4 +1,4 @@
-local expect   = require "cc.expect".expect
+local expect   = require "system.expect".expect
 local blake3   = require "ccryptolib.blake3"
 local chacha20 = require "ccryptolib.chacha20"
 local util     = require "ccryptolib.internal.util"
@@ -8,8 +8,8 @@ local lassert = util.lassert
 -- Extract local context.
 local ctx = {
     "ccryptolib 2023-04-11T19:43Z random.lua initialization context",
-    os.epoch("utc"),
-    os.epoch("ingame"),
+    os.time() * 1000,
+    os.time("ingame") * 1000,
     math.random(0, 2 ^ 24 - 1),
     math.random(0, 2 ^ 24 - 1),
     tostring({}),

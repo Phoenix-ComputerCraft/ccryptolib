@@ -55,7 +55,6 @@ describe("x25519.exchange", function()
 
         for _ = 1, 1000 do
             k, u = x25519.exchange(k, u), k
-            sleep()
         end
 
         local k1000 = util.hexcat {

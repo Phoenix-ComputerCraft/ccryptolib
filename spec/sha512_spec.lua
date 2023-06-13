@@ -20,7 +20,6 @@ describe("sha512.digest", function()
             local msg = util.hexcat { shortMsg[i].msg }
             local md = util.hexcat { shortMsg[i].md }
             expect(sha512.digest(msg)):eq(md)
-            sleep()
         end
     end)
 
@@ -29,7 +28,6 @@ describe("sha512.digest", function()
             local msg = util.hexcat { longMsg[i].msg }
             local md = util.hexcat { longMsg[i].md }
             expect(sha512.digest(msg)):eq(md)
-            sleep()
         end
     end)
 
@@ -45,7 +43,6 @@ describe("sha512.digest", function()
                 md0, md1, md2 = md1, md2, sha512.digest(md0 .. md1 .. md2)
             end
             seed = md2
-            sleep()
         end
 
         local out = util.hexcat {

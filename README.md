@@ -1,5 +1,5 @@
 # CCryptoLib
-An integrated collection of cryptographic primitives written in Lua using the ComputerCraft system API.
+An integrated collection of cryptographic primitives written in Lua using the ComputerCraft system API. This is a fork for [Phoenix](https://phoenix.madefor.cc). Requires libsystem.
 
 ## Initializing the Random Number Generator
 All functions that take secret input may query the library's random generator,
@@ -11,17 +11,27 @@ If you trust the tmpim Krist node, you can fetch a socket token and use it for
 initialization:
 ```lua
 local random = require "ccryptolib.random"
+local network = require "system.network"
 
 -- Fetch a WebSocket token.
-local postHandle = assert(http.post("https://krist.dev/ws/start", ""))
-local data = textutils.unserializeJSON(postHandle.readAll())
-postHandle.close()
+local postHandle = assert(network.post("https://krist.dev/ws/start", ""))
+local data = textutils.unserializeJSON(postHandle:read("*a"))
+postHandle:close()
 
 -- Initialize the generator using the given URL.
 random.init(data.url)
 
 -- Be polite and actually open the socket too.
-http.websocket(data.url).close()
+network.connect(data.url):close()
+```
+
+On CraftOS-PC or CCEmuX, you can use the built-in `nano` clock for relatively
+decent entropy (this will not work in-game!):
+```lua
+local random = require "ccryptolib.random"
+
+-- Initialize the generator using nanoseconds.
+random.init(os.time("nano"))
 ```
 
 Otherwise, you will need to find another high-quality random entropy source to

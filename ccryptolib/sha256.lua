@@ -1,6 +1,6 @@
 --- The SHA256 cryptographic hash function.
 
-local expect  = require "cc.expect".expect
+local expect  = require "system.expect".expect
 local lassert = require "ccryptolib.internal.util".lassert
 local packing = require "ccryptolib.internal.packing"
 

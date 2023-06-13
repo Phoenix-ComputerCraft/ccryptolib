@@ -1,23 +1,20 @@
 local PROFILE_TIME_MS = 2000
 
 local function profile(fmt, fun, coeff)
-    local tStart = os.epoch("utc")
+    local tStart = os.time()
     local sum = 0
     local count = 0
     repeat
-        local t0 = os.epoch("utc")
+        local t0 = os.time()
         fun()
-        local t1 = os.epoch("utc")
+        local t1 = os.time()
         sum = sum + t1 - t0
         count = count + 1
         if count ~= 1 then
-            local x, y = term.getCursorPos()
-            term.setCursorPos(1, y - 1)
-            term.clearLine()
+            io.write("\x1b[F\x1b[K")
         end
         print(fmt:format(coeff * count / sum))
     until t1 - tStart > PROFILE_TIME_MS
-    sleep()
 end
 
 local random = require "ccryptolib.random"

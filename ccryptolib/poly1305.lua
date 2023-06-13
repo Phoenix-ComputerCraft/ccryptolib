@@ -1,6 +1,6 @@
 --- The Poly1305 one-time authenticator.
 
-local expect  = require "cc.expect".expect
+local expect  = require "system.expect".expect
 local lassert = require "ccryptolib.internal.util".lassert
 local packing = require "ccryptolib.internal.packing"
 
