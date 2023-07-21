@@ -1,7 +1,7 @@
 --- General utilities for handling byte strings.
 
 local expect = require "system.expect".expect
-local random = require "cryptolib.random"
+local random = require "ccryptolib.random"
 local poly1305 = require "ccryptolib.poly1305"
 
 --- Returns the hexadecimal version of a string.
