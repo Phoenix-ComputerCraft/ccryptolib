@@ -6,15 +6,28 @@ local util     = require "ccryptolib.internal.util"
 local lassert = util.lassert
 
 -- Extract local context.
-local ctx = {
-    "ccryptolib 2023-04-11T19:43Z random.lua initialization context",
-    os.time() * 1000,
-    os.time("ingame") * 1000,
-    math.random(0, 2 ^ 24 - 1),
-    math.random(0, 2 ^ 24 - 1),
-    tostring({}),
-    tostring({}),
-}
+local ctx
+if KERNEL then
+    ctx = {
+        "ccryptolib 2023-04-11T19:43Z random.lua initialization context",
+        os.epoch("utc"),
+        os.epoch("ingame"),
+        math.random(0, 2 ^ 24 - 1),
+        math.random(0, 2 ^ 24 - 1),
+        tostring({}),
+        tostring({}),
+    }
+else
+    ctx = {
+        "ccryptolib 2023-04-11T19:43Z random.lua initialization context",
+        os.time() * 1000,
+        os.time("ingame") * 1000,
+        math.random(0, 2 ^ 24 - 1),
+        math.random(0, 2 ^ 24 - 1),
+        tostring({}),
+        tostring({}),
+    }
+end
 
 local state = blake3.digest(table.concat(ctx, "|"))
 local initialized = false
@@ -45,9 +58,16 @@ end
 --- seed is unpredictable for other players, but this assumption might turn out to be
 --- untrue.
 local function initWithTiming()
-    assert(os.time() ~= 0)
+    local f
+    if KERNEL then
+        assert(os.time() ~= 0)
 
-    local f = assert(load("local e=os.time return{" .. ("e(),"):rep(256) .. "}"))
+        f = assert(load("local e=os.time return{" .. ("e(),"):rep(256) .. "}"))
+    else
+        assert(os.epoch("utc") ~= 0)
+
+        f = assert(load("local e=os.epoch return{" .. ("e'utc',"):rep(256) .. "}"))
+    end
 
     do -- Warmup.
         local t = f()
