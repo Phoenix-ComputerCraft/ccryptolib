@@ -60,7 +60,7 @@ end
 --- @param str string The 32-byte encoded exponent.
 --- @return number[] bits The decoded clamped bits, divided by 8.
 local function bits8(str)
-    return {unpack(bits(str), 4)}
+    return {table.unpack(bits(str), 4)}
 end
 
 return {
