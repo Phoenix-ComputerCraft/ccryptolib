@@ -60,13 +60,13 @@ end
 local function initWithTiming()
     local f
     if KERNEL then
-        assert(os.time() ~= 0)
-
-        f = assert(load("local e=os.time return{" .. ("e(),"):rep(256) .. "}"))
-    else
         assert(os.epoch("utc") ~= 0)
 
         f = assert(load("local e=os.epoch return{" .. ("e'utc',"):rep(256) .. "}"))
+    else
+        assert(os.time() ~= 0)
+
+        f = assert(load("local e=os.time return{" .. ("e(),"):rep(256) .. "}"))
     end
 
     do -- Warmup.
